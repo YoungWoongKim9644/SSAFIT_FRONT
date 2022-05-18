@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ssafit-frontend
 
 ## Project setup
@@ -22,3 +23,7 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+=======
+# SSAFIT_FRONT
+ssafit-frontend based on vue
+>>>>>>> 7417492df6fa332ab48cc4041abaa02d37dbbd2e

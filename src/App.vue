@@ -1,12 +1,35 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+      <HeaderNav v-if="User.username"></HeaderNav>
+      <home-view v-else></home-view>
   </div>
 </template>
+
+
+<script>
+// @ is an alias to /src
+import HeaderNav from './components/common/HeaderNav.vue'
+import HomeView from './views/Home.vue'
+
+export default {
+
+  components: {
+    HeaderNav,
+    HomeView
+  },
+  data(){
+      return{
+        User : {
+          id : '',
+          pw : '',
+          username : 'u'
+        }
+      }
+  }
+}
+</script>
+
+
 
 <style>
 #app {
