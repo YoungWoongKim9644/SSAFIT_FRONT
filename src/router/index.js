@@ -1,70 +1,135 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import HomeView from "@/views/HomeView.vue";
+import BoardView from "@/views/BoardView.vue";
 
-// views
-import Home from '../views/Home.vue'
-import Main from '../views/Main.vue'
-import MyPage from '../views/MyPage.vue'
-import Video from '../views/Video.vue'
-import Calendar from '../views/Calendar.vue'
-import TodoList from '../views/TodoList.vue'
-import Join from '../components/Join.vue'
-/*componenets
+import Calendar from '@/components/main/Calendar.vue'
+import Todo from '@/components/main/Todo.vue'
+import VideoForm from '@/components/main/VideoForm.vue'
 
-import ReviewDetail from '../componenets/video/ReviewDetail.vue'
-import ReviewList from '../componenets/video/ReviewList.vue'
-import ReviewUpdate from '../componenets/video/ReviewUdpate.vue'
-import ReviewWrite from '../componenets/video/ReviewWrite.vue'
 
-import FollowList from '../componenets/mypage/followList.vue'
-import UpdateInfo from '../componenets/mypage/updateInfo.vue'
-*/
+import BoardList from "@/components/board/BoardList.vue";
+import BoardCreate from "@/components/board/BoardCreate.vue";
+import BoardUpdate from "@/components/board/BoardUpdate.vue";
+import BoardDetail from "@/components/board/BoardDetail.vue";
 
-Vue.use(VueRouter)
+import TMDBView from "@/views/TMDBView.vue";
+import TMDBTopRated from "@/components/tmdb/TMDBTopRated.vue";
+import TMDBPopular from "@/components/tmdb/TMDBPopular.vue";
+
+import KakaoMapView from "@/views/KakaoMapView.vue";
+
+import MemberLogin from "@/components/member/MemberLogin.vue";
+import MemberJoin from "@/components/member/MemberJoin.vue"
+
+import store from "@/store";
+
+Vue.use(VueRouter);
+
+const checkLogin = () => (from, to, next) => {
+  if (store.state.isLogin) {
+    next();
+  } else {
+    if (
+      confirm(
+        "로그인이 필요한 서비스입니다.\n로그인 페이지로 이동하시겠습니까?"
+      )
+    ) {
+      console.dir(from);
+      next(`/login?call=${from.fullPath}`);
+    }
+  }
+};
 
 const routes = [
   {
-    path: '/home',
-    name: 'home',
-    component: Home
+    path: "/",
+    name: "home",
+    component: HomeView,
   },
   {
-    path: '/',
-    name: 'main',
-    component : Main
+    path: "/video",
+    name: "video",
+    component: VideoForm,
   },
   {
-    path: '/mypage/:id',
-    name: 'mypage',
-    component: MyPage
+    path: "/todo",
+    name: "todo",
+    component: Todo,
   },
   {
-    path: '/video/:youtube_id',
-    name: 'video',
-    component: Video
+    path: "/calendar",
+    name: "calendar",
+    component: Calendar,
   },
   {
-    path: '/calendar',
-    name: 'calendar',
-    component: Calendar
-  },
-  {
-    path: '/todolist',
-    name: 'todolist',
-    component: TodoList
-  },
-  {
-    path: '/join',
-    name: 'join',
-    component: Join
+    path: "/join",
+    name: "join",
+    component: MemberJoin,
   },
   
-]
+  {
+    path: "/board",
+    component: BoardView,
+    children: [
+      {
+        path: "",
+        name: "boardList",
+        component: BoardList,
+        beforeEnter: checkLogin(),
+      },
+      {
+        path: "create",
+        name: "boardCreate",
+        component: BoardCreate,
+        beforeEnter: checkLogin(),
+      },
+      {
+        path: "update",
+        name: "boardUpdate",
+        component: BoardUpdate,
+      },
+      {
+        path: ":id",
+        name: "boardDetail",
+        component: BoardDetail,
+      },
+    ],
+  },
+  {
+    path: "/tmdb",
+    name: "tmdb",
+    component: TMDBView,
+    children: [
+      {
+        path: "toprated",
+        name: "toprated",
+        component: TMDBTopRated,
+      },
+      {
+        path: "popular",
+        name: "popular",
+        component: TMDBPopular,
+      },
+    ],
+  },
+  {
+    path: "/map",
+    name: "map",
+    component: KakaoMapView,
+    beforeEnter: checkLogin(),
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: MemberLogin,
+  },
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

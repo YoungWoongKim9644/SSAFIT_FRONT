@@ -1,55 +1,44 @@
 <template>
-  <div id="app">
-      <HeaderNav v-if="User.username"></HeaderNav>
-      <home-view v-else></home-view>
+  <div>
+    <header-nav v-if="isLogin"></header-nav>
+    <InitLogin @mode="changeMode" v-if="mode == 1 && !isLogin"></InitLogin>
+    <InitJoin @mode="changeMode" v-if="mode == 2 && !isLogin"></InitJoin>
+    
   </div>
 </template>
 
-
 <script>
-// @ is an alias to /src
-import HeaderNav from './components/common/HeaderNav.vue'
-import HomeView from './views/Home.vue'
+import HeaderNav from "@/components/common/HeaderNav.vue"
+import InitLogin from "@/views/InitLogin.vue"
+import InitJoin from "@/views/InitJoin.vue"
+import {mapState} from "vuex"
 
 export default {
-
   components: {
     HeaderNav,
-    HomeView
+    InitLogin,
+    InitJoin
   },
+
   data(){
-      return{
-        User : {
-          id : '',
-          pw : '',
-          username : 'u'
-        }
-      }
+    return{
+      mode : 1
+    }
+  },
+
+  methods :{
+    changeMode(val){
+      this.mode = val
+    }
+  },
+
+  computed :{
+    ...mapState(["isLogin"]),
   }
+
 }
 </script>
 
-
-
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
