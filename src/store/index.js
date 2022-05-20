@@ -14,7 +14,9 @@ export default new Vuex.Store({
     board: {},
     tmdbTopRatedMovies: [],
     isLogin: false,
-    todos : []
+    todos : [],
+    videos : [],
+    reviews : []
   },
   getters: {},
   mutations: {
@@ -59,8 +61,34 @@ export default new Vuex.Store({
       sessionStorage.removeItem("auth-token");
       api.defaults.headers["auth-token"] = "";
     },
+
+    INSERT_VIDEOS(state, videos){
+      state.videos = videos
+    },
+
+    GET_REVIEWS(state, reviews){
+      state.reviews = reviews
+      console.log("mutation")
+      console.log(state.reviews)
+    },
+
+    INSERT_USER_INFO(state, user){
+      state.user = user
+    }
   },
   actions: {
+
+    getReviews({commit}, id){
+      const API_URL = `/review/list`;
+      api({
+        url : API_URL,
+        method : "GET",
+        params : {id}
+      })
+      .then((res) => {
+        commit('GET_REVIEWS', res.data)
+      })
+    },
 
 
     createTodo({commit}, payload) {
@@ -73,7 +101,9 @@ export default new Vuex.Store({
       commit('UPDATE_TODO', payload)
     },
 
-
+    insertVideos({commit}, payload){
+      commit('INSERT_VIDEOS', payload)
+    },
 
 
     insertUser({commit}, {user}){
@@ -195,6 +225,7 @@ export default new Vuex.Store({
         data: user,
       }).then(({ data }) => {
         commit("USER_LOGIN", data["auth-token"]);
+        commit("INSERT_USER_INFO", user)
         // router.push({ name: "home" });
         if (call) {
           router.push(call);

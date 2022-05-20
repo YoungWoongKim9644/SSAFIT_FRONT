@@ -1,5 +1,5 @@
 <template>
-  <div>디테일</div>
+  <div>삭제</div>
 </template>
 
 <script>

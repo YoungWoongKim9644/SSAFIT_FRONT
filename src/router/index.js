@@ -7,6 +7,11 @@ import Calendar from '@/components/main/Calendar.vue'
 import Todo from '@/components/main/Todo.vue'
 import VideoForm from '@/components/main/VideoForm.vue'
 
+import ReviewDetail from '@/components/video/ReviewDetail'
+import ReviewList from '@/components/video/ReviewList'
+import ReviewUpdate from '@/components/video/ReviewUpdate'
+import ReviewWrite from '@/components/video/ReviewWrite'
+import ReviewDelete from '@/components/video/ReviewDelete'
 
 import BoardList from "@/components/board/BoardList.vue";
 import BoardCreate from "@/components/board/BoardCreate.vue";
@@ -48,10 +53,38 @@ const routes = [
     component: HomeView,
   },
   {
-    path: "/video",
+    path: "/video/:id",
     name: "video",
     component: VideoForm,
+    children: [
+      {
+        path: "",
+        name: "reviewList",
+        component: ReviewList,
+      },
+      {
+        path: "reviewDetail",
+        name: "reviewDetail",
+        component: ReviewDetail,
+      },
+      {
+        path: "reviewUpdate",
+        name: "reviewUpdate",
+        component: ReviewUpdate,
+      },
+      {
+        path: "reviewWrite",
+        name: "reviewWrite",
+        component: ReviewWrite,
+      },
+      {
+        path: "reviewDelete",
+        name: "reviewDelete",
+        component: ReviewDelete,
+      },
+    ],
   },
+
   {
     path: "/todo",
     name: "todo",
