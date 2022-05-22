@@ -79,6 +79,7 @@ export default new Vuex.Store({
   actions: {
 
     getReviews({commit}, id){
+      console.log("get_reviews")
       const API_URL = `/review/list`;
       api({
         url : API_URL,
@@ -86,6 +87,8 @@ export default new Vuex.Store({
         params : {id}
       })
       .then((res) => {
+        console.log("res.data")
+        console.log(res.data)
         commit('GET_REVIEWS', res.data)
       })
     },
@@ -234,6 +237,43 @@ export default new Vuex.Store({
         }
       });
     },
+
+    writeReview({commit}, review){
+      commit("INSERT_REVIEW", {title, content})
+      const API_URL = `review/write`
+      api({
+        url: API_URL,
+        method : "POST",
+        data: review
+      }).then(()=>{
+        alert("리뷰를 등록했습니다.")
+        router.push({name : 'reviewList'})
+      });
+
+  },
+
+  updateReview({commit} , review){
+    const API_URL = `review/update/${review.no}`
+    api({
+      url : API_URL,
+      method : "PUT",
+      data : review
+    }).then(()=>{
+      router.push({name : 'reviewList'})
+    })
+  },
+
+    deleteReview({commit}, no){
+      console.log(no)
+      const API_URL = `review/delete`
+      api({
+        url : API_URL,
+        method : "DELETE",
+        params : {no}
+      }).then(()=>{
+        router.push({name : 'reviewList'})
+      })
+    }
   },
   modules: {},
 });
