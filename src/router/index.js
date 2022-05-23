@@ -23,7 +23,7 @@ import TMDBTopRated from "@/components/tmdb/TMDBTopRated.vue";
 import TMDBPopular from "@/components/tmdb/TMDBPopular.vue";
 
 import KakaoMapView from "@/views/KakaoMapView.vue";
-
+import MyPage from "@/views/MyPage.vue";
 import MemberLogin from "@/components/member/MemberLogin.vue";
 import MemberJoin from "@/components/member/MemberJoin.vue"
 
@@ -167,6 +167,11 @@ const routes = [
     name: "map",
     component: KakaoMapView,
     beforeEnter: checkLogin(),
+  },
+  {
+    path: "/mypage",
+    name: "mypage",
+    component: MyPage,
   },
   {
     path: "/login",

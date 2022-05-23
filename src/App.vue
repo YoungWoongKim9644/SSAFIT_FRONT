@@ -7,7 +7,7 @@
       fade
       class="text-center"
       v-model="slide"
-      :interval="8000"
+      :interval="4000"
       background="#ababab"
       style="text-shadow: 1px 1px 2px #333;"
       @sliding-start="onSlideStart"
@@ -112,11 +112,7 @@ export default {
   top: 25%;
   width: 100%;
   color: aliceblue;
-<<<<<<< HEAD
-  text-shadow:0.5rem snow;
-=======
   text-shadow: 5px 5px 5px gray;
->>>>>>> release
 }
 
 #body{

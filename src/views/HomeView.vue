@@ -57,15 +57,9 @@
       </div>
 
       <b-card>
-<<<<<<< HEAD
-        <b-card-title>달력</b-card-title>
-        <b-card-header></b-card-header>
-        <b-card-body>
-         <router-link to="/calendar" tag="button">빠라빠라</router-link>
-=======
         <b-card-title>
           <div class="d-flex justify-content-between mx-3">
-          Calendar
+          Today : {{today}}
           <router-link to="/calendar" tag="button" class="btn btn-secondary">전체 보기</router-link>
           </div></b-card-title>
         <b-card-header> <div class="weekdays">
@@ -77,16 +71,14 @@
           <div>Fri</div>
           <div>Sat</div>
         </div></b-card-header>
-        <b-card-body class="days">
-          <!-- <div>{{week[0].date}}</div>
+        <b-card-body class="dayss">
+          <div>{{week[0].date}}</div>
           <div>{{week[1].date}}</div>
           <div>{{week[2].date}}</div>
           <div>{{week[3].date}}</div>
           <div>{{week[4].date}}</div>
           <div>{{week[5].date}}</div>
-          <div>{{week[6].date}}</div> -->
-         
->>>>>>> release
+          <div>{{week[6].date}}</div>
         </b-card-body>
       </b-card>
   </div>
@@ -118,8 +110,9 @@ export default {
       height: 315,
       videos,
       sliding: null,
-      slide : 0
-
+      slide : 0,
+      week : [],
+      today : ''
     }
   },
 
@@ -139,7 +132,7 @@ export default {
   },
 
   computed :{
-    ...mapState(["user","week"]),
+    ...mapState(["user"]),
     ...mapState({vds : "videos"})
   },
 
@@ -148,9 +141,37 @@ export default {
   },
 
   mounted(){
+    const date = new Date();
+    
+const renderCalendar = () => {
+  date.setDate(1);
+  //2
+  const lastDay = new Date(
+    date.getFullYear(),
+    date.getMonth() + 1,
+    0
+  ).getDate();
 
+  for (let i = 1; i <= lastDay; i++) {
+    if (
+      i === new Date().getDate() &&
+      date.getMonth() === new Date().getMonth()
+    ) {
+      this.today = new Date().getDate(); + " "  + new Date().getDay();
+      const day = new Date().getDay()
+      for(let x = 0; x <= day; x++){
+        this.week.push({day : x, date : i - day + x})
+      }
+      for(let x = day + 1; x < 7; x++){
+        this.week.push({day : x, date : i + (x - day)})
+      }
+      break;
+    } 
   }
 
+  }
+  renderCalendar();
+  }
 }
 </script>
 
@@ -175,15 +196,33 @@ export default {
   text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
 }
 
-.days {
+.dayss {
   color: rgb(0, 0, 0);
   width: 100%;
   display: flex;
   flex-wrap: wrap;
 }
 
-.days div{
-  width: calc(55rem/7);
+.dayss div{
+  border-style: solid;
+  font-size: 1.4rem;
+  margin: 0.3rem;
+  padding-left: 1rem;
+  height: 5rem;
+  display: flex;
+  justify-content: left;
+  align-items: flex-start;
+  text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
+  transition: background-color 0.2s;
+  width: calc(58rem/7);
 }
+
+
+.dayss div:hover:not(.today):not(.star){
+  background-color: #262626;
+  border: 0.2rem solid #777;
+  cursor: pointer;
+}
+
 
 </style>

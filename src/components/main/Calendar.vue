@@ -2,20 +2,12 @@
   <div class="calContainer">
       <div class="calCalendar">
         <div class="month">
-<<<<<<< HEAD
-          <i class="fas fa-angle-left prev"></i>
-=======
-          <i class="prev"><</i>
->>>>>>> release
+          <i class="prev">&#128072;</i>
           <div class="date">
             <h1></h1>
             <p></p>
           </div>
-<<<<<<< HEAD
-          <i class="fas fa-angle-right next"></i>
-=======
-          <i class="next">></i>
->>>>>>> release
+          <i class="next">&#128073;</i>
         </div>
         <div class="weekdays">
           <div>Sun</div>
@@ -32,14 +24,13 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
+
 export default {
 
   data(){
     return{
-<<<<<<< HEAD
-=======
       thisweek : [],
->>>>>>> release
       days : ''
     }
   },
@@ -50,45 +41,30 @@ export default {
 const renderCalendar = () => {
   date.setDate(1);
 
-<<<<<<< HEAD
-=======
   //31
->>>>>>> release
   const lastDay = new Date(
     date.getFullYear(),
     date.getMonth() + 1,
     0
   ).getDate();
 
-<<<<<<< HEAD
-=======
   //30
->>>>>>> release
   const prevLastDay = new Date(
     date.getFullYear(),
     date.getMonth(),
     0
   ).getDate();
 
-<<<<<<< HEAD
-  const firstDayIndex = date.getDay();
-
-=======
   //1
   const firstDayIndex = date.getDay();
 
   //2
->>>>>>> release
   const lastDayIndex = new Date(
     date.getFullYear(),
     date.getMonth() + 1,
     0
   ).getDay();
-<<<<<<< HEAD
-
-=======
   //4
->>>>>>> release
   const nextDays = 7 - lastDayIndex - 1;
 
   const months = [
@@ -112,7 +88,7 @@ const renderCalendar = () => {
   let days = "";
 
   for (let x = firstDayIndex; x > 0; x--) {
-    days += `<div class="prev-date">${prevLastDay - x + 1}</div>`;
+    days += `<div class="prev-date n${prevLastDay - x + 1}">${prevLastDay - x + 1}</div>`;
   }
 
   for (let i = 1; i <= lastDay; i++) {
@@ -120,26 +96,15 @@ const renderCalendar = () => {
       i === new Date().getDate() &&
       date.getMonth() === new Date().getMonth()
     ) {
-<<<<<<< HEAD
-=======
-      const day = new Date().getDay()
-      for(let x = 0; x <= day; x++){
-        this.thisweek.push({day : x, date : i - day + x})
-      }
-      for(let x = day + 1; x < 7; x++){
-        this.thisweek.push({day : x, date : i + (x - day)})
-      }
-      console.log(this.thisweek)
-      this.$store.dispatch("thisWeek", this.thisweek)
->>>>>>> release
-      days += `<div><div class="today">${i}</div></div>`;
+      days += `<div class=" n${i}"><div class="today">${i}</div>
+      </div>`;
     } else {
-      days += `<div>${i}</div>`;
+      days += `<div class=" n${i}">${i}</div>`;
     }
   }
 
   for (let j = 1; j <= nextDays; j++) {
-    days += `<div class="next-date">${j}</div>`;
+    days += `<div class="next-date n${j}">${j}</div>`;
   }
   this.days = days
 };
@@ -154,8 +119,45 @@ document.querySelector(".next").addEventListener("click", () => {
   renderCalendar();
 });
 
+  
+
 renderCalendar();
+
+
+  const renderTodos = () => {
+
+     const lastDay = new Date(
+    date.getFullYear(),
+    date.getMonth() + 1,
+    0
+  ).getDate();
+
+     for(let x = 1; x <= lastDay; x++){
+    let tmpArr = this.totalTodos.filter((elem) => {
+      let d = `${x >= 10 ? x : '0' + x}` 
+      if(elem.date.substring(8,10) === d){
+      return true;  
+    }
+    })
+    for(let j = 0 ; j < tmpArr.length; j++){
+    document.querySelector(".n" + `${x}`).innerHTML += 
+    `<div class="star"></div>`
+    }
+  }
+
+  }
+  
+  this.$nextTick(renderTodos)
+
   },
+
+computed:{
+  ...mapState(["totalTodos"])
+},
+
+beforeUpdate(){
+
+}
 
 }
 </script>
@@ -175,7 +177,6 @@ template {
 .calContainer {
   width: 100%;
   height: 100vh;
-  background-color: #d2f1e0;
   color: #eee;
   display: flex;
   justify-content: center;
@@ -185,7 +186,7 @@ template {
 .calCalendar {
   width: 70rem;
   height: 52rem;
-  background-color: #dfc2d4;
+  background-color: #575ca394;
   box-shadow: 0 0.5rem 3rem rgba(0, 0, 0, 0.4);
 }
 
@@ -242,7 +243,7 @@ template {
   flex-wrap: wrap;
 }
 
-.days div:not(.today) {
+.days div:not(.today):not(.star){
   border-style: solid;
   font-size: 1.4rem;
   margin: 0.3rem;
@@ -256,7 +257,7 @@ template {
   transition: background-color 0.2s;
 }
 
-.days div:hover:not(.today) {
+.days div:hover:not(.today):not(.star){
   background-color: #262626;
   border: 0.2rem solid #777;
   cursor: pointer;
@@ -275,5 +276,15 @@ template {
   width:fit-content;
   height:fit-content;
   background-color: #51b88b;
+}
+
+.star{
+  margin: 2.5rem 2px;
+  padding:0 0.3rem;
+  border-radius: 40px 40px;
+  border-style: none;
+  width:20px;
+  height:20px;
+  background-color: pink;
 }
 </style>

@@ -1,10 +1,5 @@
 <template>
-<<<<<<< HEAD
-  <div class="login">
-    <h2>대문 페이지</h2>
-=======
   <div class="container">
->>>>>>> release
     <div class="m-4">
       <b-form-group label="id" label-for="input-1">
         <b-form-input id="input-1" v-model="user.id" trim></b-form-input>
@@ -49,12 +44,6 @@ export default {
 
 <style>
 
-<<<<<<< HEAD
-.login{
-  position: relative;
-}
-
-=======
 #tail{
   text-align: center;
   color: white;
@@ -64,5 +53,4 @@ export default {
   text-align: center;
   color: white;
 }
->>>>>>> release
 </style>

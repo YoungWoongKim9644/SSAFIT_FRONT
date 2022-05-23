@@ -66,11 +66,7 @@
        <b-modal id="update" hide-footer>
         <template #modal-title>
           제목 : <span>{{reviewTitle}}</span>
-<<<<<<< HEAD
-    </template>
-=======
         </template>
->>>>>>> release
 
       <div class="d-block text-center">
         <form action="">

@@ -1,8 +1,7 @@
 <template>
   <div>
-      <label @click="updateTodo">
+      <label>
       <!-- <button >o</button> -->
-      <input type="checkbox">
       <span :class="{'is-done': item.isDone}" @click="updateTodo">{{ item.action }}  </span>
       </label>
       <button @click="deleteTodo">x</button>
@@ -22,6 +21,7 @@ export default {
         },
         updateTodo() {
             this.$store.dispatch('updateTodo', this.item)
+            console.log("isDone : " + this.item.isDone)
         }
     }
 }

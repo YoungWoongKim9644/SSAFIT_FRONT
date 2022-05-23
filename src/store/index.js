@@ -2,28 +2,20 @@ import { createApi } from "@/api";
 import Vue from "vue";
 import Vuex from "vuex";
 import router from "@/router";
-<<<<<<< HEAD
-import createPersistedState from "vuex-persistedstate"
-
-=======
 import createPersistedState from 'vuex-persistedstate';
->>>>>>> release
 Vue.use(Vuex);
 
 const api = createApi();
 
 export default new Vuex.Store({
   plugins : [createPersistedState()],
-<<<<<<< HEAD
-=======
-
->>>>>>> release
   state: {
     user : {},
     boards: [],
     board: {},
     tmdbTopRatedMovies: [],
     isLogin: false,
+    totalTodos : [],
     todos : [],
     videos : [],
     reviews : [],
@@ -43,7 +35,9 @@ export default new Vuex.Store({
     },
     UPDATE_TODO(state, todoItem) {
       const index = state.todos.indexOf(todoItem)
-      state.todos[index].done = !state.todos[index].done
+      state.todos[index].isDone = !state.todos[index].isDone
+      console.log("update")
+      console.log(state.todos)
     },
 
     GET_BOARDS(state, payload) {
@@ -87,24 +81,40 @@ export default new Vuex.Store({
       state.user = user
     },
 
-<<<<<<< HEAD
-=======
     THIS_WEEK(state, week){
       state.week = week
     },
 
->>>>>>> release
     GET_TODOS(state, todos){
       console.log("Mutation :")
+      console.log("todos" + todos)
       console.log(todos)
-      state.todos = todos
+      let transform = todos.map(e => {
+        if(e.isDone == "0") e.isDone = false
+        if(e.isDone == "1") e.isDone = true
+        return e;
+      })
+      state.totalTodos = transform
+
+      const d = new Date();
+      const year = d.getFullYear();
+      const month = d.getMonth() + 1; 
+      const date = d.getDate();
+      const formedDate = year 
+      + "-" + ( month >= 10 ? month : '0' + month ) 
+      + "-" + (date >= 10 ? date : '0' + date)
+      transform = state.totalTodos.map(e => {
+        if(e.date === formedDate) return e;
+      })
+
+      state.todos = transform
     }
 
   },
   actions: {
 
     getTodos({commit}, id){
-      console.log("get_reviews")
+      console.log("getTodos")
       const API_URL = `/todo/list/${id}`;
       api({
         url : API_URL,
@@ -119,13 +129,10 @@ export default new Vuex.Store({
     },
 
 
-<<<<<<< HEAD
-=======
     thisWeek({commit}, week){
       commit('THIS_WEEK', week)
     },
 
->>>>>>> release
     getReviews({commit}, id){
       console.log("get_reviews")
       const API_URL = `/review/list`;
@@ -143,7 +150,7 @@ export default new Vuex.Store({
 
 
     createTodo({commit}, todo) {
-      console.log("get_reviews")
+      console.log("actions create")
       const API_URL = `/todo/insert`;
       api({
         url : API_URL,
@@ -167,6 +174,7 @@ export default new Vuex.Store({
       })
     },
     updateTodo({ commit }, todo) {
+      console.log("actions update")
       const API_URL = `/todo/update`;
       api({
         url : API_URL,
@@ -176,7 +184,8 @@ export default new Vuex.Store({
       .then(() => {
         commit('UPDATE_TODO', todo)
       })
-    },
+
+ },
 
     insertVideos({commit}, payload){
       commit('INSERT_VIDEOS', payload)
@@ -311,11 +320,7 @@ export default new Vuex.Store({
         }
       });
     },
-<<<<<<< HEAD
-
-=======
     
->>>>>>> release
     writeReview({commit}, review){
       commit("INSERT_REVIEW", {title, content})
       const API_URL = `review/write`
