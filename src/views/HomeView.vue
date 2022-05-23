@@ -3,12 +3,11 @@
     <div class="col">
       
       <div class="row">
-      <b-card class="mt-3 mx-3 mb-3" style="width: 40rem">
-        <b-card-title>비디오</b-card-title>
+      <b-card class="mt-3 mx-3 mb-3" style="width: 45rem">
+        <b-card-title>운동 관련 영상</b-card-title>
         <b-card-header></b-card-header>
         <b-card-body>
           <div>
-    <h2>영상 리스트</h2>
     <!-- <video-list videoId="jAH3MEsh3aU" :width="560" :height="315"></video-list> -->
     <b-carousel
       id="carousel"
@@ -43,27 +42,51 @@
 
     </b-carousel> 
 </div>
-        <button @click="toVideo"></button>
-        <router-link class="ml-3 mt-3" to="/video/" tag="button">시청하기</router-link>
+        <button @click="toVideo" class="btn btn-primary mt-3">시청하기</button>
         </b-card-body>
       </b-card>
 
       <b-card class="mt-3 mx-3 mb-3" style="width: 20rem">
-        <b-card-title>투두 리스트</b-card-title>
+        <b-card-title>{{user.id}}님의 ToDo 리스트</b-card-title>
         <b-card-header></b-card-header>
         <b-card-body>
         <TodoL></TodoL>
         <TodoWr></TodoWr>
-        <router-link to="/todo" tag="button">뚜루뚜루</router-link>
         </b-card-body>
       </b-card>
       </div>
 
       <b-card>
+<<<<<<< HEAD
         <b-card-title>달력</b-card-title>
         <b-card-header></b-card-header>
         <b-card-body>
          <router-link to="/calendar" tag="button">빠라빠라</router-link>
+=======
+        <b-card-title>
+          <div class="d-flex justify-content-between mx-3">
+          Calendar
+          <router-link to="/calendar" tag="button" class="btn btn-secondary">전체 보기</router-link>
+          </div></b-card-title>
+        <b-card-header> <div class="weekdays">
+          <div>Sun</div>
+          <div>Mon</div>
+          <div>Tue</div>
+          <div>Wed</div>
+          <div>Thu</div>
+          <div>Fri</div>
+          <div>Sat</div>
+        </div></b-card-header>
+        <b-card-body class="days">
+          <!-- <div>{{week[0].date}}</div>
+          <div>{{week[1].date}}</div>
+          <div>{{week[2].date}}</div>
+          <div>{{week[3].date}}</div>
+          <div>{{week[4].date}}</div>
+          <div>{{week[5].date}}</div>
+          <div>{{week[6].date}}</div> -->
+         
+>>>>>>> release
         </b-card-body>
       </b-card>
   </div>
@@ -116,16 +139,51 @@ export default {
   },
 
   computed :{
+    ...mapState(["user","week"]),
     ...mapState({vds : "videos"})
   },
 
   created(){
       this.$store.dispatch('insertVideos', videos)
+  },
+
+  mounted(){
+
   }
 
 }
 </script>
 
 <style scoped>
+
+.weekdays {
+  width: 100%;
+  height: 5rem;
+  padding: 0 0.4rem;
+  display: flex;
+  align-items: center;
+}
+
+.weekdays div {
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 0.1rem;
+  width: calc(60rem / 7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
+}
+
+.days {
+  color: rgb(0, 0, 0);
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.days div{
+  width: calc(55rem/7);
+}
 
 </style>

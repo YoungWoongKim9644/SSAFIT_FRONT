@@ -2,12 +2,20 @@
   <div class="calContainer">
       <div class="calCalendar">
         <div class="month">
+<<<<<<< HEAD
           <i class="fas fa-angle-left prev"></i>
+=======
+          <i class="prev"><</i>
+>>>>>>> release
           <div class="date">
             <h1></h1>
             <p></p>
           </div>
+<<<<<<< HEAD
           <i class="fas fa-angle-right next"></i>
+=======
+          <i class="next">></i>
+>>>>>>> release
         </div>
         <div class="weekdays">
           <div>Sun</div>
@@ -28,6 +36,10 @@ export default {
 
   data(){
     return{
+<<<<<<< HEAD
+=======
+      thisweek : [],
+>>>>>>> release
       days : ''
     }
   },
@@ -38,26 +50,45 @@ export default {
 const renderCalendar = () => {
   date.setDate(1);
 
+<<<<<<< HEAD
+=======
+  //31
+>>>>>>> release
   const lastDay = new Date(
     date.getFullYear(),
     date.getMonth() + 1,
     0
   ).getDate();
 
+<<<<<<< HEAD
+=======
+  //30
+>>>>>>> release
   const prevLastDay = new Date(
     date.getFullYear(),
     date.getMonth(),
     0
   ).getDate();
 
+<<<<<<< HEAD
   const firstDayIndex = date.getDay();
 
+=======
+  //1
+  const firstDayIndex = date.getDay();
+
+  //2
+>>>>>>> release
   const lastDayIndex = new Date(
     date.getFullYear(),
     date.getMonth() + 1,
     0
   ).getDay();
+<<<<<<< HEAD
 
+=======
+  //4
+>>>>>>> release
   const nextDays = 7 - lastDayIndex - 1;
 
   const months = [
@@ -89,6 +120,18 @@ const renderCalendar = () => {
       i === new Date().getDate() &&
       date.getMonth() === new Date().getMonth()
     ) {
+<<<<<<< HEAD
+=======
+      const day = new Date().getDay()
+      for(let x = 0; x <= day; x++){
+        this.thisweek.push({day : x, date : i - day + x})
+      }
+      for(let x = day + 1; x < 7; x++){
+        this.thisweek.push({day : x, date : i + (x - day)})
+      }
+      console.log(this.thisweek)
+      this.$store.dispatch("thisWeek", this.thisweek)
+>>>>>>> release
       days += `<div><div class="today">${i}</div></div>`;
     } else {
       days += `<div>${i}</div>`;

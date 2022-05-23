@@ -2,14 +2,22 @@ import { createApi } from "@/api";
 import Vue from "vue";
 import Vuex from "vuex";
 import router from "@/router";
+<<<<<<< HEAD
 import createPersistedState from "vuex-persistedstate"
 
+=======
+import createPersistedState from 'vuex-persistedstate';
+>>>>>>> release
 Vue.use(Vuex);
 
 const api = createApi();
 
 export default new Vuex.Store({
   plugins : [createPersistedState()],
+<<<<<<< HEAD
+=======
+
+>>>>>>> release
   state: {
     user : {},
     boards: [],
@@ -18,7 +26,8 @@ export default new Vuex.Store({
     isLogin: false,
     todos : [],
     videos : [],
-    reviews : []
+    reviews : [],
+    week : []
   },
   getters: {},
   mutations: {
@@ -78,6 +87,13 @@ export default new Vuex.Store({
       state.user = user
     },
 
+<<<<<<< HEAD
+=======
+    THIS_WEEK(state, week){
+      state.week = week
+    },
+
+>>>>>>> release
     GET_TODOS(state, todos){
       console.log("Mutation :")
       console.log(todos)
@@ -103,6 +119,13 @@ export default new Vuex.Store({
     },
 
 
+<<<<<<< HEAD
+=======
+    thisWeek({commit}, week){
+      commit('THIS_WEEK', week)
+    },
+
+>>>>>>> release
     getReviews({commit}, id){
       console.log("get_reviews")
       const API_URL = `/review/list`;
@@ -288,7 +311,11 @@ export default new Vuex.Store({
         }
       });
     },
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> release
     writeReview({commit}, review){
       commit("INSERT_REVIEW", {title, content})
       const API_URL = `review/write`

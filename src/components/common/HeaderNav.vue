@@ -36,7 +36,14 @@
       </b-collapse>
     </b-navbar>
   </header>
+  <div id="back">
+    <div id="video">
+    <video src='https://assets.mixkit.co/videos/preview/mixkit-athlete-working-out-with-heavy-ropes-in-the-gym-23141-large.mp4' type="video/mp4" autoplay muted loop width="2100"></video>
+    </div>
+    <div id="compo">
   <router-view/>
+  </div>
+  </div>
   </div>
 </template>
 
@@ -83,4 +90,24 @@ a{text-decoration:none; color:#333;}
     font-weight: normal;
     font-style: normal;
 }
+<<<<<<< HEAD
+=======
+#back{
+  position: relative;
+  margin: 0px auto;
+}
+
+#compo{
+  position: absolute;
+  z-index: 1;
+  top : 0%;
+  left : 20%;
+}
+#video{
+   width: 100%;
+  height: 100vh;
+  overflow:visible
+}
+
+>>>>>>> release
 </style>

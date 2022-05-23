@@ -112,7 +112,11 @@ export default {
   top: 25%;
   width: 100%;
   color: aliceblue;
+<<<<<<< HEAD
   text-shadow:0.5rem snow;
+=======
+  text-shadow: 5px 5px 5px gray;
+>>>>>>> release
 }
 
 #body{
