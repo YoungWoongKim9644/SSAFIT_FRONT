@@ -34,46 +34,121 @@
           </tr>
           <tr v-for="(review, index) in reviews" :key="index">
               <td>{{review.no}}</td>
-              <router-link class="align-items-center" :to="{name : 'reviewDetail'}">{{review.title}}</router-link>
+              <!-- <td><b-btn v-b-modal="modalId(i)">Launch demo modal</b-btn></td> -->
+              <td><a href="#" @click="detailModal(review)">{{review.title}}</a></td>
+              <!--<router-link class="align-items-center" :to="{name : 'reviewDetail'}">{{review.title}}</router-link> -->
               <td>{{review.writer}}</td>
               <td>{{review.regDate}}</td>
               <td v-if="review.writer == user.id">
-                <router-link :to="{name : 'reviewUpdate'}" tag="button">수정/삭제</router-link>
+                <button @click="updateModal(review)">수정/삭제</button>
               </td>
           </tr>
 
         </table>
 
-        <router-link to="/todo" tag="button">뚜루뚜루</router-link>
+        <router-link :to="{name : 'reviewWrite', params :{video : this.video}}" tag="button">리뷰 등록하기</router-link>
         </b-card-body>
       </b-card>
+
+      <!-- <modal v-if="modalVisible" @close="modalVisible = false" :data="modalData"/> -->
+
+      <b-modal id="detail" hide-footer>
+        
+        <template #modal-title>
+          제목 : <span>{{reviewTitle}}</span>
+    </template>
+        <div class="d-block text-center">
+        <div>{{reviewContent}}</div>
+        </div> 
+        <button @click="$bvModal.hide('detail')">닫기</button>
+      </b-modal>
+
+       <b-modal id="update" hide-footer>
+        <template #modal-title>
+          제목 : <span>{{reviewTitle}}</span>
+        </template>
+
+      <div class="d-block text-center">
+        <form action="">
+          <div>
+          <label for="title">제목</label>
+          <input v-model="reviewTitle" type="text" id="title">
+          </div>
+
+          <div>
+          <label for="content">글 내용</label>
+          <textarea v-model="reviewContent" rows="10" cols="40"  id="content"/>
+          </div>
+        </form>        
+        </div> 
+
+        <button @click="updateReview()">수정</button>
+        <button @click="deleteReview()">삭제</button>
+        <button @click="$bvModal.hide('update')">취소</button>
+      </b-modal>
 
   </div>
 </template>
 
 <script>
-
+import ReviewDetail from './ReviewDetail.vue'
 import {mapState} from 'vuex'
 export default {
+  
+  components : {
+    ReviewDetail
+  },
 
   data(){
     return{
       width : 800,
       height : 400,
       video : {},
-      reviewList : []
+      reviewList : [],
+
+      modalVisible : false,
+      modalData : null,
+
+      reviewContent : '',
+      reviewTitle : '',
+      reviewNo : '',
     }
+  },
+
+  methods:{
+    detailModal(review){
+      this.reviewContent = review.content
+      this.reviewTitle = review.title
+      this.reviewNo = review.no
+      this.$bvModal.show('detail')
+    },
+
+    updateModal(review){
+      this.reviewContent = review.content
+      this.reviewTitle = review.title
+      this.reviewNo = review.no
+      this.$bvModal.show('update')
+    },
+    
+    updateReview(){
+      this.$bvModal.hide('update')
+      const review = {
+        no : this.reviewNo,
+        title : this.reviewTitle,
+        content : this.reviewContent
+      }
+      this.$store.dispatch('updateReview', review)
+    },
+    deleteReview(){
+      this.$bvModal.hide('update')
+      this.$store.dispatch('deleteReview', this.reviewNo)
+    },
   },
 
   created(){
     console.log("Created")
     this.video = this.vds[this.$route.params.id]
     console.log(this.video)
-  },
-  beforeMount(){
-    console.log("beforMount")
-    this.$store.dispatch('getReviews', this.video.id)
-
   },
   computed:{
     ...mapState(['videos', 'reviews', 'user']),

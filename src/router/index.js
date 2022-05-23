@@ -31,6 +31,20 @@ import store from "@/store";
 
 Vue.use(VueRouter);
 
+
+const loadReview = () => (from, to, next) => {
+ store.dispatch('getReviews', store.state.videos[Number(from.params.id)].id)
+ console.log("리뷰")
+ console.log(store.state.reviews)
+  next();
+};
+
+const loadTodo = () => (from, to, next) => {
+  store.dispatch('getTodos', store.state.user.id)
+  console.log("loadTodo")
+   next();
+ };
+
 const checkLogin = () => (from, to, next) => {
   if (store.state.isLogin) {
     next();
@@ -50,6 +64,7 @@ const routes = [
   {
     path: "/",
     name: "home",
+    beforeEnter : loadTodo(),
     component: HomeView,
   },
   {
@@ -60,6 +75,7 @@ const routes = [
       {
         path: "",
         name: "reviewList",
+        beforeEnter : loadReview(),
         component: ReviewList,
       },
       {
@@ -73,7 +89,7 @@ const routes = [
         component: ReviewUpdate,
       },
       {
-        path: "reviewWrite",
+        path: "reviewWrite/:",
         name: "reviewWrite",
         component: ReviewWrite,
       },

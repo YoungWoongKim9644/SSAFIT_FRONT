@@ -2,12 +2,14 @@ import { createApi } from "@/api";
 import Vue from "vue";
 import Vuex from "vuex";
 import router from "@/router";
-
+import createPersistedState from 'vuex-persistedstate';
 Vue.use(Vuex);
 
 const api = createApi();
 
 export default new Vuex.Store({
+  plugins : [createPersistedState()],
+
   state: {
     user : {},
     boards: [],
@@ -16,7 +18,8 @@ export default new Vuex.Store({
     isLogin: false,
     todos : [],
     videos : [],
-    reviews : []
+    reviews : [],
+    week : []
   },
   getters: {},
   mutations: {
@@ -74,9 +77,40 @@ export default new Vuex.Store({
 
     INSERT_USER_INFO(state, user){
       state.user = user
+    },
+
+    THIS_WEEK(state, week){
+      state.week = week
+    },
+
+    GET_TODOS(state, todos){
+      console.log("Mutation :")
+      console.log(todos)
+      state.todos = todos
     }
+
   },
   actions: {
+
+    getTodos({commit}, id){
+      console.log("get_reviews")
+      const API_URL = `/todo/list/${id}`;
+      api({
+        url : API_URL,
+        method : "POST",
+        data : id
+      })
+      .then((res) => {
+        console.log("res.data")
+        console.log(res.data)
+        commit('GET_TODOS', res.data)
+      })
+    },
+
+
+    thisWeek({commit}, week){
+      commit('THIS_WEEK', week)
+    },
 
     getReviews({commit}, id){
       const API_URL = `/review/list`;
@@ -91,14 +125,40 @@ export default new Vuex.Store({
     },
 
 
-    createTodo({commit}, payload) {
-      commit('CREATE_TODO', payload)
+    createTodo({commit}, todo) {
+      console.log("get_reviews")
+      const API_URL = `/todo/insert`;
+      api({
+        url : API_URL,
+        method : "POST",
+        data : todo
+      })
+      .then(() => {
+        commit('CREATE_TODO', todo)
+      })
     },
-    deleteTodo({ commit }, payload) {
-      commit('DELETE_TODO', payload)
+
+    deleteTodo({ commit }, todo) {
+      const API_URL = `/todo/delete`;
+      api({
+        url : API_URL,
+        method : "DELETE",
+        data : todo
+      })
+      .then(() => {
+        commit('DELETE_TODO', todo)
+      })
     },
-    updateTodo({ commit }, payload) {
-      commit('UPDATE_TODO', payload)
+    updateTodo({ commit }, todo) {
+      const API_URL = `/todo/update`;
+      api({
+        url : API_URL,
+        method : "PUT",
+        data : todo
+      })
+      .then(() => {
+        commit('UPDATE_TODO', todo)
+      })
     },
 
     insertVideos({commit}, payload){
@@ -234,6 +294,43 @@ export default new Vuex.Store({
         }
       });
     },
+    
+    writeReview({commit}, review){
+      commit("INSERT_REVIEW", {title, content})
+      const API_URL = `review/write`
+      api({
+        url: API_URL,
+        method : "POST",
+        data: review
+      }).then(()=>{
+        alert("리뷰를 등록했습니다.")
+        router.push({name : 'reviewList'})
+      });
+
+  },
+
+  updateReview({commit} , review){
+    const API_URL = `review/update/${review.no}`
+    api({
+      url : API_URL,
+      method : "PUT",
+      data : review
+    }).then(()=>{
+      router.go()
+    })
+  },
+
+    deleteReview({commit}, no){
+      console.log(no)
+      const API_URL = `review/delete`
+      api({
+        url : API_URL,
+        method : "DELETE",
+        params : {no}
+      }).then(()=>{
+        router.go()
+      })
+    }
   },
   modules: {},
 });
