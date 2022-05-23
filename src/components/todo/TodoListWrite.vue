@@ -6,6 +6,8 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
+
 export default {
     data() {
         return {
@@ -15,8 +17,9 @@ export default {
     methods: {
         createTodo() {
             const todoItem = {
-                title: this.newTodo,
-                done: false,
+                action: this.newTodo,
+                isDone: false,
+                id : this.user.id
             }
 
             if(this.newTodo.trim()) {
@@ -29,6 +32,10 @@ export default {
             }
             this.newTodo = ''
         }
+    },
+
+    computed:{
+        ...mapState(['user'])
     }
 }
 </script>

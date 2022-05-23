@@ -2,12 +2,14 @@ import { createApi } from "@/api";
 import Vue from "vue";
 import Vuex from "vuex";
 import router from "@/router";
+import createPersistedState from "vuex-persistedstate"
 
 Vue.use(Vuex);
 
 const api = createApi();
 
 export default new Vuex.Store({
+  plugins : [createPersistedState()],
   state: {
     user : {},
     boards: [],
@@ -74,9 +76,32 @@ export default new Vuex.Store({
 
     INSERT_USER_INFO(state, user){
       state.user = user
+    },
+
+    GET_TODOS(state, todos){
+      console.log("Mutation :")
+      console.log(todos)
+      state.todos = todos
     }
+
   },
   actions: {
+
+    getTodos({commit}, id){
+      console.log("get_reviews")
+      const API_URL = `/todo/list/${id}`;
+      api({
+        url : API_URL,
+        method : "POST",
+        data : id
+      })
+      .then((res) => {
+        console.log("res.data")
+        console.log(res.data)
+        commit('GET_TODOS', res.data)
+      })
+    },
+
 
     getReviews({commit}, id){
       console.log("get_reviews")
@@ -94,14 +119,40 @@ export default new Vuex.Store({
     },
 
 
-    createTodo({commit}, payload) {
-      commit('CREATE_TODO', payload)
+    createTodo({commit}, todo) {
+      console.log("get_reviews")
+      const API_URL = `/todo/insert`;
+      api({
+        url : API_URL,
+        method : "POST",
+        data : todo
+      })
+      .then(() => {
+        commit('CREATE_TODO', todo)
+      })
     },
-    deleteTodo({ commit }, payload) {
-      commit('DELETE_TODO', payload)
+
+    deleteTodo({ commit }, todo) {
+      const API_URL = `/todo/delete`;
+      api({
+        url : API_URL,
+        method : "DELETE",
+        data : todo
+      })
+      .then(() => {
+        commit('DELETE_TODO', todo)
+      })
     },
-    updateTodo({ commit }, payload) {
-      commit('UPDATE_TODO', payload)
+    updateTodo({ commit }, todo) {
+      const API_URL = `/todo/update`;
+      api({
+        url : API_URL,
+        method : "PUT",
+        data : todo
+      })
+      .then(() => {
+        commit('UPDATE_TODO', todo)
+      })
     },
 
     insertVideos({commit}, payload){
@@ -259,7 +310,7 @@ export default new Vuex.Store({
       method : "PUT",
       data : review
     }).then(()=>{
-      router.push({name : 'reviewList'})
+      router.go()
     })
   },
 
@@ -271,7 +322,7 @@ export default new Vuex.Store({
         method : "DELETE",
         params : {no}
       }).then(()=>{
-        router.push({name : 'reviewList'})
+        router.go()
       })
     }
   },

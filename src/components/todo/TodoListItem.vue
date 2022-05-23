@@ -3,7 +3,7 @@
       <label @click="updateTodo">
       <!-- <button >o</button> -->
       <input type="checkbox">
-      <span :class="{'is-done': item.done}" @click="updateTodo">{{ item.title }} &nbsp;</span>
+      <span :class="{'is-done': item.isDone}" @click="updateTodo">{{ item.action }}  </span>
       </label>
       <button @click="deleteTodo">x</button>
   </div>

@@ -39,6 +39,11 @@ const loadReview = () => (from, to, next) => {
   next();
 };
 
+const loadTodo = () => (from, to, next) => {
+  store.dispatch('getTodos', store.state.user.id)
+  console.log("loadTodo")
+   next();
+ };
 
 const checkLogin = () => (from, to, next) => {
   if (store.state.isLogin) {
@@ -59,6 +64,7 @@ const routes = [
   {
     path: "/",
     name: "home",
+    beforeEnter : loadTodo(),
     component: HomeView,
   },
   {

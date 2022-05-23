@@ -63,7 +63,7 @@
         <b-card-title>달력</b-card-title>
         <b-card-header></b-card-header>
         <b-card-body>
-         <router-link to="/video" tag="button">빠라빠라</router-link>
+         <router-link to="/calendar" tag="button">빠라빠라</router-link>
         </b-card-body>
       </b-card>
   </div>

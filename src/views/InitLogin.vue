@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="login">
     <h2>대문 페이지</h2>
     <div class="m-4">
       <b-form-group label="id" label-for="input-1">
@@ -39,4 +39,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+
+.login{
+  position: relative;
+}
+
+</style>
