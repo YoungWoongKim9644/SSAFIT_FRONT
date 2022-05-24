@@ -2,9 +2,9 @@
   <div>
       <label>
       <!-- <button >o</button> -->
-      <span :class="{'is-done': item.isDone}" @click="updateTodo">{{ item.action }}  </span>
+      <span :class="{'is-done': item.isDone}" @click="updateTodo">{{ item.action }}</span>
       </label>
-      <button @click="deleteTodo">x</button>
+      <button class="btn btn-secondary btn-sm ml-5 " id="delButton" @click="deleteTodo">x</button>
   </div>
 </template>
 
@@ -31,4 +31,16 @@ export default {
 .is-done {
     text-decoration: line-through;
 }
+
+#delButton{
+    color: white;
+    font-weight: bold;
+    border-color: rgb(218, 54, 51);
+}
+
+#delButton:hover {
+    background-color: rgb(218, 54, 51);
+    color: white;
+}
+
 </style>

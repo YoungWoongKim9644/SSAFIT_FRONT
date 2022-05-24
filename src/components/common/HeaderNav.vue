@@ -117,7 +117,7 @@ export default {
   z-index : 1; /*다른 요소들보다 앞에 배치*/
   font-weight: 400;
   background-color: #f9f9f9;
-  min-width : 644px;
+  min-width : 646px;
   list-style: none;
   margin-top: 17px;
 }
@@ -128,7 +128,7 @@ export default {
   text-decoration : none;
   color : rgb(37, 37, 37);
   font-size: 17px;
-  padding : 10px 20px;
+  padding : 20px 40px;
   float:left;
 }
 

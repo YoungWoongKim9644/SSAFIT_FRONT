@@ -1,10 +1,19 @@
 <template>
-  <div class="container">
+  <div id="init" class="container">
     <div class="m-4">
-      <b-form-group label="id" label-for="input-1">
+      <b-form-group label="ID"
+       label-for="input-1"
+       label-cols-lg="1"
+       label-size="lg"
+       >
         <b-form-input id="input-1" v-model="user.id" trim></b-form-input>
       </b-form-group>
-      <b-form-group label="pw" label-for="input-2">
+      <b-form-group label="PW"
+       label-for="input-2"
+       label-cols-lg="1"
+       label-size="lg"
+
+       >
         <b-form-input type="password" id="input-2" v-model="user.pw" trim></b-form-input>
       </b-form-group>
       <b-button class="mx-3" variant="outline-success" @click="login">로그인</b-button>
@@ -29,16 +38,19 @@ export default {
   },
   methods: {
     login() {
-      // console.log(this.$route.query.call);
+      if(this.user.id.length > 0){
+
       this.$store.dispatch("userLogin", {
         user: this.user,
         call: this.$route.query.call,
-      });
+      })
+      };
     },
     Join(){
         this.$emit('mode', 2)
     }
   },
+
 };
 </script>
 
@@ -52,5 +64,9 @@ export default {
 #ssafy{
   text-align: center;
   color: white;
+}
+#init label{
+  color: aliceblue;
+  font-weight: bold;
 }
 </style>

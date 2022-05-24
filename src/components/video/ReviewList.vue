@@ -40,13 +40,13 @@
               <td>{{review.writer}}</td>
               <td>{{review.regDate}}</td>
               <td v-if="review.writer == user.id">
-                <button @click="updateModal(review)">수정/삭제</button>
+                <button class="btn btn-secondary btn-sm" @click="updateModal(review)">수정/삭제</button>
               </td>
           </tr>
 
         </table>
 
-        <router-link :to="{name : 'reviewWrite', params :{video : this.video}}" tag="button">리뷰 등록하기</router-link>
+        <router-link :to="{name : 'reviewWrite', params :{video : this.video}}" tag="button" class="btn btn-secondary" >리뷰 등록하기</router-link>
         </b-card-body>
       </b-card>
 
@@ -55,36 +55,41 @@
       <b-modal id="detail" hide-footer>
         
         <template #modal-title>
-          제목 : <span>{{reviewTitle}}</span>
+          <span>{{reviewTitle}}</span>
     </template>
-        <div class="d-block text-center">
+        <div class="d-block text-left">
         <div>{{reviewContent}}</div>
-        </div> 
-        <button @click="$bvModal.hide('detail')">닫기</button>
+        </div>
+        <div>&nbsp;</div> 
+        <button class="btn btn-secondary btn-sm float-right" @click="$bvModal.hide('detail')">닫기</button>
       </b-modal>
 
        <b-modal id="update" hide-footer>
         <template #modal-title>
-          제목 : <span>{{reviewTitle}}</span>
+        <span>{{reviewTitle}}</span>
         </template>
 
-      <div class="d-block text-center">
+      <div class="d-block text-left">
         <form action="">
           <div>
           <label for="title">제목</label>
-          <input v-model="reviewTitle" type="text" id="title">
+          <input class="form-control" v-model="reviewTitle" type="text" id="title">
+          <div>&nbsp;</div>
+          <label for="content">내용</label>
           </div>
 
           <div>
-          <label for="content">글 내용</label>
-          <textarea v-model="reviewContent" rows="10" cols="40"  id="content"/>
+          <textarea class="form-control" v-model="reviewContent" rows="10" cols="40"  id="content"/>
+          <div>&nbsp;</div>
           </div>
         </form>        
         </div> 
 
-        <button @click="updateReview()">수정</button>
-        <button @click="deleteReview()">삭제</button>
-        <button @click="$bvModal.hide('update')">취소</button>
+        <div class="mx-3">
+        <button class="btn btn-success btn-sm mr-1" @click="updateReview()">수정</button>
+        <button class="btn btn-danger btn-sm " @click="deleteReview()">삭제</button>
+        <button class="btn btn-secondary btn-sm float-right" @click="$bvModal.hide('update')">취소</button>
+        </div>
       </b-modal>
 
   </div>

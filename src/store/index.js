@@ -86,16 +86,11 @@ export default new Vuex.Store({
     },
 
     GET_TODOS(state, todos){
-      console.log("Mutation :")
-      console.log("todos" + todos)
-      console.log(todos)
       let transform = todos.map(e => {
         if(e.isDone == "0") e.isDone = false
         if(e.isDone == "1") e.isDone = true
         return e;
       })
-      state.totalTodos = transform
-
       const d = new Date();
       const year = d.getFullYear();
       const month = d.getMonth() + 1; 
@@ -107,7 +102,8 @@ export default new Vuex.Store({
         if(e.date === formedDate) return e;
       })
 
-      state.todos = transform
+      state.todos = transform.filter(Boolean)
+      console.log(state.todos)
     }
 
   },

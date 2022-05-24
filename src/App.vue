@@ -25,12 +25,19 @@
 
 
     <div id="init-text">
-    <span><strong>DONE IS BETTER THEN PERFECT</strong></span>
+    <span><strong>DONE IS BETTER THAN PERFECT</strong></span>
     </div>
 
     <div id="init-login">
     <InitLogin @mode="changeMode" v-if="mode == 1 && !isLogin"></InitLogin>
-    <InitJoin @mode="changeMode" v-if="mode == 2 && !isLogin"></InitJoin>
+    <b-modal 
+    id="join" 
+    title="회원가입" 
+    hide-footer
+    body-bg-variant="dark"
+    >
+    <InitJoin @mode="changeMode"></InitJoin>
+    </b-modal>
     </div>
 
   </div>
@@ -85,6 +92,16 @@ export default {
 
   computed :{
     ...mapState(["isLogin"]),
+  },
+  watch:{
+    mode : function(){
+      if(this.mode == 2){
+        this.$bvModal.show('join')
+      }
+      else{
+        this.$bvModal.hide('join')
+      }
+    }
   }
 
 }

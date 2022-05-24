@@ -1,7 +1,7 @@
 <template>
   <div>
-      <input type="text" v-model="newTodo" @keyup.enter="createTodo" ref = "todoInput" placeholder="목표 추가">
-      <button @click="createTodo">추가</button>
+      <input type="text" class="form-control" v-model="newTodo" @keyup.enter="createTodo" ref = "todoInput" placeholder="목표 추가">
+      <button @click="createTodo" class="btn btn-secondary btn-sm mx-1">추가</button>
   </div>
 </template>
 
@@ -16,15 +16,17 @@ export default {
     },
     methods: {
         createTodo() {
-            const todoItem = {
-                action: this.newTodo,
-                isDone: false,
-                id : this.user.id
-            }
+
 
             if(this.newTodo.trim()) {
-                // console.log("createTodo!!")
-                // console.log(todoItem)
+                
+                const todoItem = {
+                action: this.newTodo,
+                isDone: false,
+                id : this.user.id,
+                date : now()
+                }
+
                 this.$store.dispatch("createTodo", todoItem)
             } else {
                 alert("내용을 입력해주세요")

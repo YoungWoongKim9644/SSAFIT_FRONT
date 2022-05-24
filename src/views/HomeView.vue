@@ -42,7 +42,7 @@
 
     </b-carousel> 
 </div>
-        <button @click="toVideo" class="btn btn-primary mt-3">시청하기</button>
+        <button @click="toVideo" class="btn btn-secondary mt-3" >시청하기</button>
         </b-card-body>
       </b-card>
 
@@ -106,7 +106,7 @@ export default {
 
   data(){
     return{
-      width: 560,
+      width: 640,
       height: 315,
       videos,
       sliding: null,
