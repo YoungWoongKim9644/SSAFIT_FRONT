@@ -6,7 +6,7 @@
        label-cols-lg="1"
        label-size="lg"
        >
-        <b-form-input id="input-1" v-model="user.id" trim></b-form-input>
+        <b-form-input id="input-1" style="width: 200px;" v-model="user.id" trim></b-form-input>
       </b-form-group>
       <b-form-group label="PW"
        label-for="input-2"
@@ -14,7 +14,7 @@
        label-size="lg"
 
        >
-        <b-form-input type="password" id="input-2" v-model="user.pw" trim></b-form-input>
+        <b-form-input type="password" id="input-2" style="width: 200px;" v-model="user.pw" trim></b-form-input>
       </b-form-group>
       <b-button class="mx-3" variant="outline-success" @click="login">로그인</b-button>
       <b-button class="mx-3" variant="outline-warning" @click="Join">회원가입</b-button>

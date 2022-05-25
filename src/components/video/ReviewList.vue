@@ -9,13 +9,20 @@
         <iframe 
             :width="width" 
             :height="height" 
-            :src="`https://www.youtube.com/embed/${this.video.id}`" 
+            :src="`https://www.youtube.com/embed/${this.video.youtubeId}`" 
             :title= "`${video.title}`" 
             frameborder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
             allowfullscreen
             ></iframe>
             <div>{{video.title}}</div>
+
+      <button class="like__btn float-left ml-3" @click="like">
+          <span id="icon">
+            <i class="fas fa-thumbs-up" v-if="clicked"></i>
+            <i class="far fa-thumbs-up" v-else></i>
+          </span>
+      </button>
 
         </b-card-body>
       </b-card>
@@ -117,10 +124,25 @@ export default {
       reviewContent : '',
       reviewTitle : '',
       reviewNo : '',
+
+      clicked : '',
+      likeIcon : ''
     }
   },
 
   methods:{
+
+    
+    like(){
+    if (!this.clicked) {
+    this.clicked = true;
+    this.$store.dispatch("insertDibs", {id : this.user.id, title : this.video.title})
+  } else {
+    this.clicked = false;
+    this.$store.dispatch("deleteDibs", {id : this.user.id, title : this.video.title})
+  }
+    },
+
     detailModal(review){
       this.reviewContent = review.content
       this.reviewTitle = review.title
@@ -151,18 +173,39 @@ export default {
   },
 
   created(){
-    console.log("Created")
     this.video = this.vds[this.$route.params.id]
-    console.log(this.video)
+    console.log("Created")
+    console.log(this.dibs)
+    console.log(this.video.title)
+    this.clicked = false;
+    this.dibs.forEach((element) => {
+      if(element.title === this.video.title){
+        this.clicked = true;
+      }
+    });
+    console.log(this.clicked)
   },
   computed:{
-    ...mapState(['videos', 'reviews', 'user']),
+    ...mapState(['videos', 'reviews', 'user','dibs']),
     ...mapState({vds : "videos"}),
-  }
+  },
 
 }
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap");
+
+.like__btn {
+  padding: 10px 15px;
+  background: #0080ff;
+  font-size: 18px;
+  font-family: "Open Sans", sans-serif;
+  border-radius: 5px;
+  color: white;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
 
 </style>

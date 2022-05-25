@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="d-flex justify-content-center my-1">
       <label>
       <!-- <button >o</button> -->
-      <span :class="{'is-done': item.isDone}" @click="updateTodo">{{ item.action }}</span>
+      <span :class="{'is-done': item.isDone}" @click="updateTodo"> &#10004; {{ item.action }}</span>
       </label>
-      <button class="btn btn-secondary btn-sm ml-5 " id="delButton" @click="deleteTodo">x</button>
+      <button class="btn btn-secondary btn-sm ml-3 " id="delButton" @click="deleteTodo">x</button>
   </div>
 </template>
 

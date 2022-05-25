@@ -19,7 +19,8 @@ export default new Vuex.Store({
     todos : [],
     videos : [],
     reviews : [],
-    week : []
+    week : [],
+    dibs : [],
   },
   getters: {},
   mutations: {
@@ -104,10 +105,43 @@ export default new Vuex.Store({
 
       state.todos = transform.filter(Boolean)
       console.log(state.todos)
+    },
+
+    SELECT_PART(state, selected){
+      state.videos = selected
+    },
+
+    GET_DIBS(state, dibs){
+      state.dibs = dibs
+      console.log("DIBS")
+      console.log(dibs)
+    },
+
+    INSERT_DIBS(state, dibs){
+      state.dibs.push(dibs)
+    },
+
+    DELELTE_DIBS(state, dibs){
+      state.dibs.removeItem(dibs)
     }
 
   },
   actions: {
+
+    selectPart({commit}, selected){
+      const API_URL = `/video/part/${selected}`;
+      api({
+        url : API_URL,
+        method : "GET",
+        data : selected
+      })
+      .then((res) => {
+        console.log("res.data")
+        console.log(res.data)
+        commit('SELECT_PART', res.data)
+      })
+
+    },
 
     getTodos({commit}, id){
       console.log("getTodos")
@@ -318,7 +352,7 @@ export default new Vuex.Store({
     },
     
     writeReview({commit}, review){
-      commit("INSERT_REVIEW", {title, content})
+      // commit("INSERT_REVIEW", {title, content})
       const API_URL = `review/write`
       api({
         url: API_URL,
@@ -326,7 +360,7 @@ export default new Vuex.Store({
         data: review
       }).then(()=>{
         alert("리뷰를 등록했습니다.")
-        router.push({name : 'reviewList'})
+        
       });
 
   },
@@ -352,7 +386,41 @@ export default new Vuex.Store({
       }).then(()=>{
         router.go()
       })
+    },
+
+    getDibs({commit}, id){
+      const API_URL = `dibs/list`
+      api({
+        url : API_URL,
+        method : "GET",
+        params : {id}
+      }).then((res) => {
+        commit("GET_DIBS", res.data)
+      })
+    },
+
+    insertDibs({commit}, dibs){
+      const API_URL = `dibs/insert`
+      api({
+        url : API_URL,
+        method : "POST",
+        data : dibs,    
+      }).then(()=>{
+        commit("INSERT_DIBS", dibs)
+      })
+    },
+
+    deleteDibs({commit}, dibs){
+      const API_URL = `dibs/delete`
+      api({
+        url : API_URL,
+        method : "DELETE",
+        data : dibs,    
+      }).then(()=>{
+        commit("DELETE_DIBS", dibs)
+      })
     }
+
   },
   modules: {},
 });

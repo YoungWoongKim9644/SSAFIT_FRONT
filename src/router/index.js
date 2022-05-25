@@ -33,17 +33,26 @@ Vue.use(VueRouter);
 
 
 const loadReview = () => (from, to, next) => {
- store.dispatch('getReviews', store.state.videos[Number(from.params.id)].id)
+ store.dispatch('getReviews', store.state.videos[Number(from.params.id)].youtubeId)
  console.log("리뷰")
  console.log(store.state.reviews)
   next();
 };
 
-const loadTodo = () => (from, to, next) => {
+const loadTodo = () => {
   store.dispatch('getTodos', store.state.user.id)
-  console.log("loadTodo")
-   next();
  };
+
+ const loadDibs = () => {
+  store.dispatch('getDibs', store.state.user.id)
+ }
+
+ const loadUserInfo = () =>(from, to, next) =>{
+  console.log("loadUserInfo")
+   loadTodo()
+   loadDibs()
+   next();
+ }
 
 const checkLogin = () => (from, to, next) => {
   if (store.state.isLogin) {
@@ -64,7 +73,7 @@ const routes = [
   {
     path: "/",
     name: "home",
-    beforeEnter : loadTodo(),
+    beforeEnter : loadUserInfo(),
     component: HomeView,
   },
   {

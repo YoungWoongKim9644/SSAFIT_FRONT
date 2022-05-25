@@ -12,7 +12,6 @@
     <b-carousel
       id="carousel"
       class="text-center"
-      v-model="slide"
       :interval="4000"
       controls
       indicators
@@ -28,7 +27,7 @@
         <iframe 
             :width="width" 
             :height="height" 
-            :src="`https://www.youtube.com/embed/${part.id}`" 
+            :src="`https://www.youtube.com/embed/${part.youtubeId}`" 
             :title= "`${part.title}`" 
             frameborder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
@@ -42,7 +41,27 @@
 
     </b-carousel> 
 </div>
+        <div class="d-flex justify-content-between mx-3">
         <button @click="toVideo" class="btn btn-secondary mt-3" >시청하기</button>
+        
+        <form method="" action="" class="mt-3">
+      <div class="selectBox">
+        <select v-model="selected" class="select" name="fitPartName" id="parts" @change="selectPart($event)">
+         <option selected value="no">선택하세요.</option>
+         <option value="no">조회순</option>
+         <option value="상체">상체</option> 
+         <option value="하체">하체</option> 
+         <option value="전신">전신</option> 
+         <option value="복부">복부</option> 
+        </select>
+        <span class="icoArrow">
+          <img src="https://img.icons8.com/ios-filled/50/000000/collapse-arrow.png"/>
+        </span>
+      </div>
+    </form>
+
+        </div>
+        
         </b-card-body>
       </b-card>
 
@@ -92,7 +111,6 @@ import TodoWr from '../components/todo/TodoListWrite.vue'
 import Calendar from '@/components/main/Calendar.vue'
 import Todo from '@/components/main/Todo.vue'
 import VideoForm from '@/components/main/VideoForm.vue'
-import videos from '@/data/video.json'
 import {mapState} from 'vuex'
 export default {
   name: "HomeView",
@@ -108,15 +126,28 @@ export default {
     return{
       width: 640,
       height: 315,
-      videos,
       sliding: null,
       slide : 0,
       week : [],
-      today : ''
+      today : '',
+      selected : ''
     }
   },
 
   methods:{
+
+    selectPart(event){
+      console.log(event.target.value)
+      this.$store.dispatch("selectPart",event.target.value)
+
+      // if(event.target.value === '조회순'){
+      //   this.$store.dispatch("selectPart",event.target.value)
+      // }
+      // else{
+      //   this.$store.dispatch("selectPart",event.target.value)
+      // }
+    },
+
    onSlideStart(slide) {
      console.log(slide)
         this.sliding = true
@@ -126,14 +157,13 @@ export default {
         this.sliding = false
       },
       toVideo(){
-        const selected = this.vds[this.slide]
         this.$router.push({path : "/video/" + this.slide})
       }
   },
 
   computed :{
     ...mapState(["user"]),
-    ...mapState({vds : "videos"})
+    ...mapState(["videos"])
   },
 
   created(){
@@ -224,5 +254,58 @@ const renderCalendar = () => {
   cursor: pointer;
 }
 
+select::-ms-expand { 
+	display: none;
+}
+.select {
+  -o-appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+    .selectBox {
+  position: relative;
+  width: 150px;
+  height: 35px;
+  border-radius: 4px;
+  border: 2px solid rgb(100,96,96);
+}
+.selectBox .select {
+  width: inherit;
+  height: inherit;
+  background: transparent;
+  border: 0 none;
+  outline: 0 none;
+  padding: 0 5px;
+  position: relative;
+  z-index: 3;
+}
+.selectBox .select option {
+  background: rgb(100, 96, 96);
+  color: #fff;
+  padding: 3px 0;
+  font-size: 16px;
+}
+.selectBox .icoArrow {
+  position: absolute; 
+  top: 0; 
+  right: 0; 
+  z-index: 1; 
+  width: 35px; 
+  height: inherit;
+  border-left: 2px solid rgb(100,96,96);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.selectBox .icoArrow img {
+  width: 50%;
+  transition: .3s;
+}
+
+.selectBox .select:focus + .icoArrow img {
+  transform: rotate(180deg);
+}
 
 </style>

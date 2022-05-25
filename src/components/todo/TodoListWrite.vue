@@ -1,6 +1,6 @@
 <template>
   <div>
-      <input type="text" class="form-control" v-model="newTodo" @keyup.enter="createTodo" ref = "todoInput" placeholder="목표 추가">
+      <input type="text" class="form-control"  v-model="newTodo" @keyup.enter="createTodo" ref = "todoInput" placeholder="목표 추가">
       <button @click="createTodo" class="btn btn-secondary btn-sm mx-1">추가</button>
   </div>
 </template>
@@ -24,7 +24,6 @@ export default {
                 action: this.newTodo,
                 isDone: false,
                 id : this.user.id,
-                date : now()
                 }
 
                 this.$store.dispatch("createTodo", todoItem)

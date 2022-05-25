@@ -1,20 +1,31 @@
 <template>
-  <div class="container">
+  <div>
+    <div class="container">
     <form action="#">
-      <div>
-      <label for="title">제목</label>
-      <input v-model="title" type="text" id="title">
-      </div>
+  <b-card
+    style="width: 50rem;"
+    class="mt-3 mx-3 mb-3"
+  >
+    <b-card-body>
+      <b-card-title>제목</b-card-title>
+      <b-card-text>
+        <input class="form-control" v-model="title" type="text" id="title">
+      </b-card-text>
+    </b-card-body>
 
-      <div>
-      <label for="content">글 내용</label>
-      <textarea v-model="content" rows="20" cols="100"  id="content"/>
-      </div>
+    <b-list-group flush>
+    </b-list-group>
+
+    <b-card-body>
+      <b-card-title>내용</b-card-title>
+      <textarea class="form-control" v-model="content" rows="15" cols="100"  id="content"/>
+    </b-card-body>
+    <button @click="writeReview" class="mx-4 btn btn-secondary btn-sm">등록하기</button>
+    <button @click="cancel" class="mx-4 btn btn-secondary btn-sm float-right">취소</button>
+  </b-card>
     </form>
-    <button @click="writeReview">등록하기</button>
-    <button @click="cancel">취소</button>
-
-  </div>
+    </div>
+</div>
 </template>
 
 <script>
@@ -40,11 +51,11 @@ export default {
         title : this.title,
         content : this.content,
         writer : this.user.id,
-        videoTitle : this.$route.params.video.title
+        videoTitle : this.videos[this.$route.params.id].title
       }
       console.log(review)
       this.$store.dispatch("writeReview", review)
-      
+      router.push({name : 'reviewList'})
     },
     cancel(){
       this.$router.push({name : 'reviewList'})
@@ -52,7 +63,7 @@ export default {
   },
 
   computed:{
-      ...mapState(['user'])
+      ...mapState(['user','videos'])
   },
   created(){
      
