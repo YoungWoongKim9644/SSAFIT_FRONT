@@ -108,6 +108,7 @@ export default {
 </script>
 
 <style>
+
 #intro{
   position: relative;
   margin: 0px auto;

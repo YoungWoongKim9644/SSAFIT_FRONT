@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
 import router from './router'
+import AOS from 'aos'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
 // Import Bootstrap and BootstrapVue CSS files (order is important)
@@ -16,6 +17,9 @@ Vue.use(IconsPlugin)
 Vue.config.productionTip = false
 
 new Vue({
+  created(){
+    AOS.init();
+  },
   store,
   router,
   render: h => h(App)

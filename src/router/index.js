@@ -32,6 +32,12 @@ import store from "@/store";
 Vue.use(VueRouter);
 
 
+const loadFollowInfo = () => (from, to, next) =>{
+  store.dispatch('getFollowInfo', store.state.user)
+  next(); 
+}
+
+
 const loadReview = () => (from, to, next) => {
  store.dispatch('getReviews', store.state.videos[Number(from.params.id)].youtubeId)
  console.log("리뷰")
@@ -50,6 +56,7 @@ const loadTodo = () => {
  const loadUserInfo = () =>(from, to, next) =>{
   console.log("loadUserInfo")
    loadTodo()
+   console.log(store.state.todos)
    loadDibs()
    next();
  }
@@ -180,6 +187,7 @@ const routes = [
   {
     path: "/mypage",
     name: "mypage",
+    beforeEnter: loadFollowInfo(),
     component: MyPage,
   },
   {

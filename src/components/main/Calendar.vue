@@ -1,5 +1,5 @@
 <template>
-  <div class="calContainer">
+  <div class="calContaine" data-aos="fade-down">
       <div class="calCalendar">
         <div class="month">
           <i class="prev">&#128072;</i>

@@ -1,6 +1,6 @@
 import { createApi } from "@/api";
 import Vue from "vue";
-import Vuex from "vuex";
+import Vuex, { Store } from "vuex";
 import router from "@/router";
 import createPersistedState from 'vuex-persistedstate';
 Vue.use(Vuex);
@@ -21,6 +21,9 @@ export default new Vuex.Store({
     reviews : [],
     week : [],
     dibs : [],
+    follower : [],
+    followed : [],
+    searched : []
   },
   getters: {},
   mutations: {
@@ -92,6 +95,9 @@ export default new Vuex.Store({
         if(e.isDone == "1") e.isDone = true
         return e;
       })
+      
+      state.totalTodos = transform
+      
       const d = new Date();
       const year = d.getFullYear();
       const month = d.getMonth() + 1; 
@@ -99,6 +105,7 @@ export default new Vuex.Store({
       const formedDate = year 
       + "-" + ( month >= 10 ? month : '0' + month ) 
       + "-" + (date >= 10 ? date : '0' + date)
+
       transform = state.totalTodos.map(e => {
         if(e.date === formedDate) return e;
       })
@@ -121,8 +128,30 @@ export default new Vuex.Store({
       state.dibs.push(dibs)
     },
 
-    DELELTE_DIBS(state, dibs){
-      state.dibs.removeItem(dibs)
+    DELELTE_DIBS(state, dibs){      
+      const itemIdx = state.dibs.indexOf(dibs)
+      if(itemIdx > -1) state.dibs.splice(itemIdx,1)
+    },
+
+    GET_FOLLOWER_INFO(state, payload){
+      state.follower = payload.map(e => e.id)
+    },
+
+    GET_FOLLOWED_INFO(state, payload){
+      state.followed = payload.map(e => e.id)
+    },
+
+    SEARCH_USER(state, users){
+      state.searched = users
+    },
+
+    FOLLOW(state, payload){
+      state.follower.push(payload.followedId)
+    },
+
+    UN_FOLLOW(state, payload){
+      const itemIdx = state.follower.indexOf(payload.followedId)
+      if(itemIdx > -1) state.follower.splice(itemIdx,1)
     }
 
   },
@@ -418,6 +447,61 @@ export default new Vuex.Store({
         data : dibs,    
       }).then(()=>{
         commit("DELETE_DIBS", dibs)
+      })
+    },
+
+    getFollowInfo({commit}, user){
+      const API_URL = `user/follower/list`
+      api({
+        url : API_URL,
+        method : "POST",
+        data : {mode : "1" , id: user.id},    
+      }).then((res)=>{
+        commit("GET_FOLLOWER_INFO", res.data)
+      })
+
+      api({
+        url : API_URL,
+        method : "POST",
+        data : {mode : "2" , id: user.id},    
+      }).then((res)=>{
+        commit("GET_FOLLOWED_INFO", res.data)
+      })
+    },
+
+    searchUser({commit}, id){
+      const API_URL = `user/search`
+      api({
+        url : API_URL,
+        method : "POST",
+        data : id
+      }).then((res)=>{
+        console.log(res.data)
+        commit("SEARCH_USER", res.data)
+      })
+    },
+
+    follow({commit}, payload){
+      const API_URL = `user/follower/insert`
+      api({
+        url : API_URL,
+        method : "POST",
+        data : payload
+      }).then((res)=>{
+        if(res.data){
+          commit("FOLLOW", payload)
+        }
+      })
+    },
+    
+    unFollow({commit}, payload){
+      const API_URL = `user/follower/update`
+      api({
+        url : API_URL,
+        method : "PUT",
+        data : payload
+      }).then(()=>{
+          commit("UN_FOLLOW", payload)
       })
     }
 

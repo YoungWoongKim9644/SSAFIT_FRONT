@@ -1,9 +1,9 @@
 <template>
-  <div class="container">
+  <div data-aos="zoom-in" class="container">
     <div class="col">
       
       <div class="row">
-      <b-card class="mt-3 mx-3 mb-3" style="width: 45rem">
+      <b-card class="mt-3 mx-3 mb-3 youtubePart" style="width: 45rem">
         <b-card-title>운동 관련 영상</b-card-title>
         <b-card-header></b-card-header>
         <b-card-body>
@@ -65,7 +65,7 @@
         </b-card-body>
       </b-card>
 
-      <b-card class="mt-3 mx-3 mb-3" style="width: 20rem">
+      <b-card class="mt-3 mx-3 mb-3 todoPart" style="width: 20rem">
         <b-card-title>{{user.id}}님의 ToDo 리스트</b-card-title>
         <b-card-header></b-card-header>
         <b-card-body>
@@ -75,7 +75,7 @@
       </b-card>
       </div>
 
-      <b-card>
+      <b-card class="calendarPart">
         <b-card-title>
           <div class="d-flex justify-content-between mx-3">
           Today : {{today}}
@@ -306,6 +306,64 @@ select::-ms-expand {
 
 .selectBox .select:focus + .icoArrow img {
   transform: rotate(180deg);
+}
+
+.youtubePart {
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transition: all 0.3s ease-in-out;   /* 부드러운 모션을 위해 추가*/
+}
+.youtubePart:hover {
+  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  box-shadow: 0 0.5rem 3rem rgba(0, 0, 0, 0.4);
+  z-index: 99;
+}
+
+.calendarPart {
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transition: all 0.3s ease-in-out;   /* 부드러운 모션을 위해 추가*/
+}
+.calendarPart:hover {
+  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  box-shadow: 0 0.5rem 3rem rgba(0, 0, 0, 0.4);
+  z-index: 99;
+}
+
+.todoPart {
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transition: all 0.3s ease-in-out;   /* 부드러운 모션을 위해 추가*/
+}
+.todoPart:hover {
+  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  box-shadow: 0 0.5rem 3rem rgba(0, 0, 0, 0.4);
+  z-index: 99;
+}
+
+.container{
+  font-family: 'Sunflower', sans-serif !important;
 }
 
 </style>
