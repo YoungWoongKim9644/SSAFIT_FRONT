@@ -1,7 +1,14 @@
 <template>
-  <div class="container">
-    <h2>게시글 목록</h2>
-    <hr>
+<div>
+    <div class="container">
+    <form action="#">
+  <b-card
+    style="width: 50rem;"
+    class="mt-3 mx-3 mb-3"
+  >
+    <b-card-body>
+      <b-card-title>게시글 목록</b-card-title>
+      <hr>
     <div v-if="boards.length">
       <b-table-simple
         hover
@@ -10,19 +17,15 @@
       >
         <b-thead>
           <b-tr>
-            <b-th>번호</b-th>
             <b-th>제목</b-th>
-            <b-th>글쓴이</b-th>
-            <b-th>조회수</b-th>
+            <b-th>작성자</b-th>
             <b-th>등록일</b-th>
           </b-tr>
         </b-thead>
         <b-tbody>
           <b-tr v-for="board in pageBoardList" :key="board.id">
-            <b-td>{{ board.id }}</b-td>
             <b-td> <b-link :to="`/board/${board.id}`">{{board.title}}</b-link></b-td>
-            <b-td>{{board.writer}}</b-td>
-            <b-td>{{board.viewCnt}}</b-td>
+            <b-td>{{ board.id }}</b-td>
             <b-td>{{board.regDate}}</b-td>
           </b-tr>
         </b-tbody>
@@ -31,16 +34,17 @@
     <div v-else>
       등록된 게시글이 없습니다.
     </div>
+    <div>&nbsp;</div>
     <div>
-      <select v-model="mode">
+      <select v-model="mode" id="inputState" class="mx-1"> 
         <option value="1">제목</option>
         <option value="2">내용</option>
         <option value="3">제목+내용</option>
       </select>
       <input type="text" v-model="keyword">
-      <button @click="search">검색</button>
+      <button @click="search" class="mx-1 btn btn-secondary btn-sm">검색</button>
     </div>
-
+    <div>&nbsp;</div>
     <b-pagination
       v-model="currentPage"
       :total-rows="rows"
@@ -48,10 +52,11 @@
       aria-controls="my-table"
       align="center"
     ></b-pagination>
-
-
+    </b-card-body>
+  </b-card>
+    </form>
   </div>
-
+</div>
 </template>
 
 <script>

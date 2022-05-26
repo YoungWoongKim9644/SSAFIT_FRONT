@@ -1,42 +1,55 @@
 <template>
-  <div class="container">
-    <h2>게시글등록</h2>
-    <div class="m-4">
-      <b-form-group label="제목" label-for="input-1">
+      <div>
+    <div class="container">
+    <form action="#">
+  <b-card
+    style="width: 50rem;"
+    class="mt-3 mx-3 mb-3"
+  >
+    <b-card-body>
+      <b-card-title>게시글 등록</b-card-title>
+      <b-card-text>
         <b-form-input id="input-1" v-model="title" trim></b-form-input>
-      </b-form-group>
-      <b-form-group label="글쓴이" label-for="input-2">
-        <b-form-input id="input-2" v-model="writer" trim></b-form-input>
-      </b-form-group>
-      <b-form-group label="글내용" label-for="textarea">
-        <b-form-textarea id="textarea" v-model="content"></b-form-textarea>
-      </b-form-group>
-      <b-button variant="outline-success" @click="createBoard">등록</b-button>
+      </b-card-text>
+      <b-card-title>내용</b-card-title>
+      <textarea class="form-control" v-model="contents" rows="15" cols="100"  id="content"/>
+    </b-card-body>
+    <b-button @click="createBoard" class="mx-4 btn btn-secondary btn-sm">등록하기</b-button>
+    <button @click="cancel" class="mx-4 btn btn-secondary btn-sm float-right">취소</button>
+  </b-card>
+    </form>
     </div>
-  </div>
+</div>
 </template>
 
 <script>
+
+import {mapState} from 'vuex'
+
 export default {
   name: "BoardCreate",
   data() {
     return {
       title: "",
-      writer: "",
-      content: ""
+      contents: ""
     };
   },
   methods: {
     createBoard() {
       let newBoard = {
-        id: 0,
+        id: this.user.id,
         title: this.title,
-        writer: this.writer,
-        content: this.content
-      };
-
-      this.$store.dispatch("createBoard", newBoard);
+        contents: this.contents
+      }
+      this.$store.dispatch('createBoard', newBoard)
+      router.push({name : 'boardList'})
+    },
+    cancel() {
+      this.$router.push({name : 'boardList'})
     }
+  },
+  computed:{
+      ...mapState(['user','videos'])
   }
 };
 </script>
