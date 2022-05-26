@@ -1,37 +1,36 @@
 <template>
   <div>
   <header>
-    <b-navbar toggleable="lg" type="light" variant="white">
-      <b-navbar-brand :to="{ name: 'home' }">
-        <div class="dropdown">
-          <span class = "dropbtn_icon">
-            <img src="..\src\assets\SSAFIT.png" alt="ssafit" width="120px"></span>
-          <div class="dropdown-content">
-            <b-nav-item to="/board">게시판목록</b-nav-item>
+
+  <b-navbar variant="faded" type="light" class="d-flex justify-content-center">
+    <b-navbar-brand href="#">
+    <b-button block v-b-toggle.sidebar-no-header style="background-color:transparent; border : 0px;" ><img src="..\src\assets\logos.png" alt="ssafit" width="1900px"></b-button>
+    </b-navbar-brand>
+   </b-navbar>
+
+    <b-sidebar id="sidebar-no-header" aria-labelledby="sidebar-no-header-title" no-header shadow>
+      <template #default="{ hide }">
+        <div class="p-3">
+          <router-link  :to="{ name: 'home' }" role="button" class="btn btn-success d-flex justify-content-center">
+            <h4 id="sidebar-no-header-title" class="text-center">S S A F I T</h4>
+          </router-link>
+          <p class="mt-3">
+            <h5 class="text-center"><strong>M e n u</strong></h5>
+          </p>
+          <nav class="mb-3 text-center">
+            <b-nav vertical>
+             <b-nav-item to="/board">게시판목록</b-nav-item>
             <b-nav-item :to="{ name: 'boardCreate' }">게시판등록</b-nav-item>
             <b-nav-item to="/mypage">마이페이지</b-nav-item>
             <b-nav-item v-if="!isLogin" to="/login">로그인</b-nav-item>
             <b-nav-item v-else @click="doLogout">로그아웃</b-nav-item>
-            <!-- <li><a href="#">게시판 목록</a></li>
-            <li><a href="#">게시판 등록</a></li>
-            <li><a href="#">로그아웃</a></li> -->
-            </div>
-          </div>
-      </b-navbar-brand>
-
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
-      <b-collapse id="nav-collapse" is-nav>
-        <b-navbar-nav class="ml-auto" type="dark">
-          <b-nav-item to="/mypage">
-          <img src="..\src\assets\user.png" alt="user" width="35px">
-          마이페이지</b-nav-item>
-          <!-- <b-nav-item :to="{ name: 'boardCreate' }">게시판등록</b-nav-item>
-          <b-nav-item v-if="!isLogin" to="/login">로그인</b-nav-item>
-          <b-nav-item v-else @click="doLogout">로그아웃</b-nav-item> -->
-        </b-navbar-nav>
-      </b-collapse>
-    </b-navbar>
+            </b-nav>
+          </nav>
+          <b-button variant="primary" block @click="hide">닫기</b-button>
+        </div>
+      </template>
+    </b-sidebar>
+    
   </header>
   <div id="back">
     <b-carousel
