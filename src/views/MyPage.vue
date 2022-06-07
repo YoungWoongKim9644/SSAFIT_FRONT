@@ -40,6 +40,8 @@ export default {
 <style>
 
 
+
+
 #mypage{
   position: absolute;
   width : 1100px;

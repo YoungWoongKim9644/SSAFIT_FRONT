@@ -503,6 +503,67 @@ export default new Vuex.Store({
       }).then(()=>{
           commit("UN_FOLLOW", payload)
       })
+    },
+
+    getBoards({ commit }) {
+      
+      const API_URL = `/board/list`;
+      api({
+        url: API_URL,
+        method: "GET",
+      })
+        .then((res) => {
+          console.log(res);
+          commit("GET_BOARDS", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    createBoard({ commit }, board) {
+      console.log(board)
+      const API_URL = `/board/write`;
+      api({
+        url: API_URL,
+        method: "POST",
+        data: board,
+      })
+        .then(() => {
+          commit("CREATE_BOARD", board);
+          router.push("/board");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    updateBoard({ commit }, board) {
+      const API_URL = `/board`;
+      api({
+        url: API_URL,
+        method: "PUT",
+        params: board,
+      })
+        .then(() => {
+          commit("UPDATE_BOARD", board);
+          router.push({ name: "boardDetail", params: { id: board.id } });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    deleteBoard(context, id) {
+      context; //이거 안하면 난리남...
+      const API_URL = `/board/${id}`;
+      api({
+        url: API_URL,
+        method: "DELETE",
+      })
+        .then(() => {
+          router.push({ name: "boardList" });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
 
   },
